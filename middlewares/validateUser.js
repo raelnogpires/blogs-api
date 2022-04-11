@@ -34,7 +34,7 @@ const emailValidation = (email) => {
 
   if (exists) {
     return {
-      error: { code: statusCode.BAD_REQUEST, message: '"email" must be a valid email' },
+      error: { code: statusCode.CONFLICT, message: 'User already registered' },
     };
   }
 
@@ -56,6 +56,8 @@ const passwordValidation = (password) => {
       },
     };
   }
+
+  return true;
 };
 
 const userValidation = async (req, _res, next) => {
