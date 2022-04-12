@@ -1,7 +1,9 @@
 const userModel = require('../models/user');
 const statusCode = require('../middlewares/httpStatusCode');
 
-const register = async (displayName, email, password, image) => {
+const register = async (data) => {
+  const { displayName, email, password, image } = data;
+
   const exists = await userModel.findOne({ where: { email } });
 
   if (exists) {
