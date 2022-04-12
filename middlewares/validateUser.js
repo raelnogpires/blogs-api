@@ -17,7 +17,7 @@ const nameValidation = (name) => {
   return true;
 };
 
-const emailValidation = (email) => {
+const emailValidation = async (email) => {
   if (!email) {
     return {
       error: { code: statusCode.BAD_REQUEST, message: '"email" is required' },
@@ -30,7 +30,7 @@ const emailValidation = (email) => {
     };
   }
 
-  const exists = userModel.findOne({ where: { email } });
+  const exists = await userModel.findOne({ where: { email } });
 
   if (exists) {
     return {
