@@ -3,6 +3,7 @@ const userRouter = require('./routers/user');
 const { errorMiddleware } = require('./middlewares/error');
 
 const app = express();
+app.use(express.json());
 
 app.use(userRouter);
 app.use(errorMiddleware);

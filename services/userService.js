@@ -1,10 +1,10 @@
-const userModel = require('../models/user');
+const { User } = require('../models');
 const statusCode = require('../middlewares/httpStatusCode');
 
 const register = async (data) => {
   const { displayName, email, password, image } = data;
 
-  const exists = await userModel.findOne({ where: { email } });
+  const exists = await User.findOne({ where: { email } });
 
   if (exists) {
     return {
@@ -12,7 +12,7 @@ const register = async (data) => {
     };
   }
 
-  await userModel.create({ displayName, email, password, image });
+  await User.create({ displayName, email, password, image });
 
   return true;
 };

@@ -1,5 +1,4 @@
 const statusCode = require('./httpStatusCode');
-const userModel = require('../models/user');
 
 const emailRegex = /\S+@\S+\.\S+/;
 const validateEmailWithRegex = (email) => emailRegex.test(email);
@@ -27,14 +26,6 @@ const emailValidation = async (email) => {
   if (!validateEmailWithRegex(email)) {
     return {
       error: { code: statusCode.BAD_REQUEST, message: '"email" must be a valid email' },
-    };
-  }
-
-  const exists = await userModel.findOne({ where: { email } });
-
-  if (exists) {
-    return {
-      error: { code: statusCode.CONFLICT, message: 'User already registered' },
     };
   }
 
