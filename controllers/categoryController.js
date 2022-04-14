@@ -10,7 +10,7 @@ const create = async (req, res) => {
 
   await categoryService.create(name);
 
-  return res.status(statusCode.OK).json({ name });
+  return res.status(statusCode.CREATED).json({ name });
 };
 
 module.exports = { create };
