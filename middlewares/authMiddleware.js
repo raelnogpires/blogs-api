@@ -9,13 +9,13 @@ const authMiddleware = async (req, res, next) => {
     return res.status(statusCode.UNAUTHORIZED).json({ message: 'Token not found' });
   }
 
-  const valid = jwt.verify(token, secret);
-
-  if (!valid) {
+  try {
+    const decoded = jwt.verify(token, secret);
+    req.user = decoded;
+    next();
+  } catch (error) {
     return res.status(statusCode.UNAUTHORIZED).json({ message: 'Expired or invalid token' });
   }
-
-  next();
 };
 
 module.exports = authMiddleware;
