@@ -1,7 +1,7 @@
 const { BlogPosts } = require('../models');
 
 const create = async (data) => {
-  const { title, content, userId } = data;
+  const { userId, title, content } = data;
   const result = await BlogPosts.create({ userId, title, content });
   return result;
 };
