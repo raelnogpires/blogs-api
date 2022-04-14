@@ -1,7 +1,7 @@
 const statusCode = require('./httpStatusCode');
 
 const emailValidation = (email) => {
-  if (!email) {
+  if (email === undefined) {
     return {
       error: { code: statusCode.BAD_REQUEST, message: '"email" is required' },
     };
@@ -19,7 +19,7 @@ const emailValidation = (email) => {
 };
 
 const passwordValidation = (password) => {
-  if (!password) {
+  if (password === undefined) {
     return {
       error: { code: statusCode.BAD_REQUEST, message: '"password" is required' },
     };
@@ -32,13 +32,13 @@ const passwordValidation = (password) => {
       },
     };
   }
+
+  return true;
 };
 
 const loginValidation = async (req, _res, next) => {
-  const { email, password } = req.body;
-
-  const emailV = emailValidation(email);
-  const passwordV = passwordValidation(password);
+  const emailV = emailValidation(req.body.email);
+  const passwordV = passwordValidation(req.body.password);
 
   if (emailV.error) {
     return next(emailV.error);

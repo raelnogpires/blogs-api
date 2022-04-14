@@ -15,13 +15,13 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res, next) => {
-  const { email, password } = req.body;
-
-  const { error } = await userService.login(email, password);
+  const { error } = await userService.login(req.body);
 
   if (error) {
     return next(error);
   }
+
+  const { email } = req.body;
 
   const token = jwt.sign({ email }, jwtConfig.secret, jwtConfig.configs);
 
