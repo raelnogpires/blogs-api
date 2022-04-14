@@ -52,9 +52,7 @@ const passwordValidation = (password) => {
   return true;
 };
 
-const userValidation = async (req, _res, next) => {
-  // const { displayName, email, password } = req.body;
-
+const registerValidation = async (req, _res, next) => {
   const nameV = nameValidation(req.body.displayName);
   const emailV = emailValidation(req.body.email);
   const passwordV = passwordValidation(req.body.password);
@@ -80,4 +78,4 @@ const userValidation = async (req, _res, next) => {
   return next();
 };
 
-module.exports = userValidation;
+module.exports = registerValidation;
