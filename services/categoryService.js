@@ -4,4 +4,9 @@ const create = async (name) => {
   await Categories.create({ name });
 };
 
-module.exports = { create };
+const getAll = async () => {
+  const categories = await Categories.findAll();
+  return categories;
+};
+
+module.exports = { create, getAll };

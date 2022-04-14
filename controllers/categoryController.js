@@ -13,4 +13,9 @@ const create = async (req, res) => {
   return res.status(statusCode.CREATED).json({ name });
 };
 
-module.exports = { create };
+const getAll = async (req, res) => {
+  const categories = await categoryService.getAll();
+  return res.status(statusCode.OK).json(categories);
+};
+
+module.exports = { create, getAll };
