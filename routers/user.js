@@ -10,5 +10,6 @@ const router = express.Router();
 router.post('/user', registerValidation, rescue(userController.register));
 router.post('/login', loginValidation, rescue(userController.login));
 router.get('/user', authMiddleware, rescue(userController.getAll));
+router.get('/user/:id', authMiddleware, rescue(userController.getById));
 
 module.exports = router;
