@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/jwtConfig');
 const statusCode = require('./httpStatusCode');
+const { User } = require('../models'); 
 
 const authMiddleware = async (req, res, next) => {
   const { authorization: token } = req.headers;
@@ -10,8 +11,9 @@ const authMiddleware = async (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, secret);
-    req.user = decoded;
+    const { data } = jwt.verify(token, secret);
+    const result = await User.findOne({ where: { email: data.email } });
+    req.userId = result.dataValues.id;
     next();
   } catch (error) {
     return res.status(statusCode.UNAUTHORIZED).json({ message: 'Expired or invalid token' });

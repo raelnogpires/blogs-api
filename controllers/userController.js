@@ -22,7 +22,10 @@ const login = async (req, res, next) => {
   }
 
   const { email } = req.body;
-  const token = jwt.sign({ email }, jwtConfig.secret, jwtConfig.configs);
+
+  const payload = { data: { email }, admin: false };
+
+  const token = jwt.sign(payload, jwtConfig.secret, jwtConfig.configs);
 
   req.headers.authorization = token;
 
