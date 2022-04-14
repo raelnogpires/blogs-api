@@ -28,4 +28,14 @@ const getAll = async () => {
   return users;
 };
 
-module.exports = { register, login, getAll };
+const getUserById = async (id) => {
+  const user = await User.findOne({ where: { id }, attributes: { exclude: ['password'] } });
+  return user;
+};
+
+module.exports = {
+  register,
+  login,
+  getAll,
+  getUserById,
+};
