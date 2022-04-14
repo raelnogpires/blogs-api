@@ -4,12 +4,8 @@ const jwtConfig = require('../config/jwtConfig');
 const userService = require('../services/userService');
 const statusCode = require('../middlewares/httpStatusCode');
 
-const register = async (req, res, next) => {
-  const { error } = userService.register(req.body);
-
-  if (error) {
-    return next(error);
-  }
+const register = async (req, res) => {
+  await userService.register(req.body);
 
   const { email } = req.body;
 

@@ -1,3 +1,4 @@
+const { User } = require('../models');
 const statusCode = require('./httpStatusCode');
 
 const emailRegex = /\S+@\S+\.\S+/;
@@ -16,7 +17,7 @@ const nameValidation = (name) => {
   return true;
 };
 
-const emailValidation = async (email) => {
+const emailValidation = (email) => {
   if (!email) {
     return {
       error: { code: statusCode.BAD_REQUEST, message: '"email" is required' },
@@ -52,11 +53,11 @@ const passwordValidation = (password) => {
 };
 
 const userValidation = async (req, _res, next) => {
-  const { displayName, email, password } = req.body;
+  // const { displayName, email, password } = req.body;
 
-  const nameV = nameValidation(displayName);
-  const emailV = emailValidation(email);
-  const passwordV = passwordValidation(password);
+  const nameV = nameValidation(req.body.displayName);
+  const emailV = emailValidation(req.body.email);
+  const passwordV = passwordValidation(req.body.password);
 
   if (nameV.error) {
     return next(nameV.error);
@@ -64,6 +65,12 @@ const userValidation = async (req, _res, next) => {
 
   if (emailV.error) {
     return next(emailV.error);
+  }
+
+  const exists = await User.findOne({ where: { email: req.body.email } });
+
+  if (exists) {
+    return next({ code: statusCode.CONFLICT, message: 'User already registered' });
   }
 
   if (passwordV.error) {
