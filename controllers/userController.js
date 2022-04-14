@@ -30,4 +30,9 @@ const login = async (req, res, next) => {
   return res.status(statusCode.OK).json({ token });
 };
 
-module.exports = { register, login };
+const getAll = async (_req, res) => {
+  const users = await userService.getAll();
+  return res.status(statusCode.OK).json(users);
+};
+
+module.exports = { register, login, getAll };

@@ -3,6 +3,7 @@ const rescue = require('express-rescue');
 const userController = require('../controllers/userController');
 const registerValidation = require('../middlewares/registerValidation');
 const loginValidation = require('../middlewares/loginValidation');
+const authMiddleware = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
