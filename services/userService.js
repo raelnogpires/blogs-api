@@ -12,7 +12,7 @@ const register = async (data) => {
 const login = async (data) => {
   const { email, password } = data;
 
-  const user = User.findOne({ where: { email, password } });
+  const user = await User.findOne({ where: { email, password } });
 
   if (!user) {
     return {
