@@ -23,4 +23,9 @@ const login = async (data) => {
   return true;
 };
 
-module.exports = { register, login };
+const getAll = async () => {
+  const users = await User.findAll();
+  return users;
+};
+
+module.exports = { register, login, getAll };
