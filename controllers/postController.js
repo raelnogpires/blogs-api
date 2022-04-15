@@ -11,4 +11,9 @@ const create = async (req, res) => {
   return res.status(statusCode.CREATED).json({ id: result.id, ...postData });
 };
 
-module.exports = { create };
+const getAll = async (_req, res) => {
+  const result = postService.getAll();
+  return res.status(statusCode.OK).json(result);
+};
+
+module.exports = { create, getAll };
