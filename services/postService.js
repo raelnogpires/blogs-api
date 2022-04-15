@@ -6,4 +6,9 @@ const create = async (data) => {
   return result;
 };
 
-module.exports = { create };
+const getAll = async () => {
+  const result = await BlogPosts.findAll();
+  return result;
+};
+
+module.exports = { create, getAll };
