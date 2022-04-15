@@ -9,6 +9,7 @@ const {
 
 const router = express.Router();
 
+router.get('/post', authMiddleware, rescue(postController.getAll));
 router.post('/post',
   authMiddleware,
   titleAndContentValidation,

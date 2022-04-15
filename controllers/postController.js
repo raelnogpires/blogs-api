@@ -12,7 +12,7 @@ const create = async (req, res) => {
 };
 
 const getAll = async (_req, res) => {
-  const result = postService.getAll();
+  const result = await postService.getAll();
   return res.status(statusCode.OK).json(result);
 };
 
