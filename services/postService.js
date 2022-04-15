@@ -1,4 +1,5 @@
 const { BlogPosts, User, Categories } = require('../models');
+const { NOT_FOUND } = require('../middlewares/httpStatusCode');
 
 const create = async (data) => {
   const { userId, title, content } = data;
@@ -19,14 +20,20 @@ const getAll = async () => {
 
 const getById = async (id) => {
   const result = await BlogPosts.findOne({
-    where: id,
+    where: { id },
     include: [
       { model: User, as: 'user', attributes: { exclude: ['password'] } },
       { model: Categories, as: 'categories', through: { attributes: [] } },
     ],
   });
 
-  return result;
+  if (!result) {
+    return {
+      error: { code: NOT_FOUND, message: 'Post does not exist' },
+    };
+  }
+
+  return { result };
 };
 
 module.exports = { create, getAll, getById };
