@@ -12,6 +12,7 @@ const {
 
 const router = express.Router();
 
+router.get('/post/search', authMiddleware, postController.getByQuery);
 router.get('/post', authMiddleware, rescue(postController.getAll));
 router.get('/post/:id', authMiddleware, rescue(postController.getById));
 

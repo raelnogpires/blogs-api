@@ -1,3 +1,4 @@
+const { Op } = require('sequelize');
 const { BlogPosts, User, Categories } = require('../models');
 const { NOT_FOUND } = require('../middlewares/httpStatusCode');
 
@@ -36,6 +37,24 @@ const getById = async (id) => {
   return { result };
 };
 
+const getByQuery = async (query) => {
+  // https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#the-basics
+  const result = await BlogPosts.findAll({
+    where: {
+      [Op.or]: [
+        { content: { [Op.like]: `%${query}%` } },
+        { title: { [Op.like]: `%${query}%` } },
+      ],
+    },
+    include: [
+      { model: User, as: 'user', attributes: { exclude: ['password'] } },
+      { model: Categories, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+
+  return result;
+};
+
 const update = async (data) => {
   const { id, title, content } = data;
   const result = await BlogPosts.update({ title, content }, { where: { id } });
@@ -57,6 +76,7 @@ module.exports = {
   create,
   getAll,
   getById,
+  getByQuery,
   update,
   deleteById,
 };
