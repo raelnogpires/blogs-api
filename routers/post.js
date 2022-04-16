@@ -7,12 +7,20 @@ const {
   categoryIdValidation,
   categoriesValidation,
   userValidation,
+  postExistValidation,
 } = require('../middlewares/postValidation');
 
 const router = express.Router();
 
 router.get('/post', authMiddleware, rescue(postController.getAll));
 router.get('/post/:id', authMiddleware, rescue(postController.getById));
+
+router.post('/post',
+  authMiddleware,
+  titleAndContentValidation,
+  categoryIdValidation,
+  rescue(postController.create));
+
 router.put('/post/:id',
   authMiddleware,
   titleAndContentValidation,
@@ -20,10 +28,10 @@ router.put('/post/:id',
   userValidation,
   rescue(postController.update));
 
-router.post('/post',
+router.delete('/post/:id',
   authMiddleware,
-  titleAndContentValidation,
-  categoryIdValidation,
-  rescue(postController.create));
+  postExistValidation,
+  userValidation,
+  rescue(postController.deleteById));
 
 module.exports = router;

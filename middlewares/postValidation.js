@@ -1,4 +1,4 @@
-const { BAD_REQUEST, UNAUTHORIZED } = require('./httpStatusCode');
+const { BAD_REQUEST, UNAUTHORIZED, NOT_FOUND } = require('./httpStatusCode');
 const { getAll } = require('../services/categoryService');
 const { getById } = require('../services/postService');
 
@@ -50,8 +50,24 @@ const userValidation = async (req, res, next) => {
 
   const { result } = await getById(id);
 
+  if (!result) {
+    return next({ code: NOT_FOUND, message: 'Post does not exist' });
+  }
+
   if (result.userId !== req.userId) {
     return next({ code: UNAUTHORIZED, message: 'Unauthorized user' });
+  }
+
+  return next();
+};
+
+const postExistValidation = async (req, res, next) => {
+  const { id } = req.params;
+
+  const { result } = await getById(id);
+
+  if (!result) {
+    return next({ code: NOT_FOUND, message: 'Post does not exist' });
   }
 
   return next();
@@ -62,4 +78,5 @@ module.exports = {
   categoryIdValidation,
   categoriesValidation,
   userValidation,
+  postExistValidation,
 };
