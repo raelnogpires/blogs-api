@@ -1,7 +1,7 @@
 const express = require('express');
 const rescue = require('express-rescue');
+
 const authMiddleware = require('../middlewares/authMiddleware');
-const postController = require('../controllers/postController');
 const {
   titleAndContentValidation,
   categoryIdValidation,
@@ -10,11 +10,14 @@ const {
   postExistValidation,
 } = require('../middlewares/postValidation');
 
+const postController = require('../controllers/postController');
+
 const router = express.Router();
 
-router.get('/post/search', authMiddleware, postController.getByQuery);
-router.get('/post', authMiddleware, rescue(postController.getAll));
-router.get('/post/:id', authMiddleware, rescue(postController.getById));
+router
+  .get('/post/search', authMiddleware, postController.getByQuery)
+  .get('/post', authMiddleware, rescue(postController.getAll))
+  .get('/post/:id', authMiddleware, rescue(postController.getById));
 
 router.post('/post',
   authMiddleware,

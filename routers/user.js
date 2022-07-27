@@ -1,16 +1,19 @@
-const express = require('express');
+const { Router } = require('express');
 const rescue = require('express-rescue');
+
 const userController = require('../controllers/userController');
+
 const registerValidation = require('../middlewares/registerValidation');
 const loginValidation = require('../middlewares/loginValidation');
 const authMiddleware = require('../middlewares/authMiddleware');
 
-const router = express.Router();
+const router = Router();
 
-router.post('/user', registerValidation, rescue(userController.register));
-router.post('/login', loginValidation, rescue(userController.login));
-router.get('/user', authMiddleware, rescue(userController.getAll));
-router.get('/user/:id', authMiddleware, rescue(userController.getById));
-router.delete('/user/me', authMiddleware, rescue(userController.deleteMe));
+router
+  .post('/user', registerValidation, rescue(userController.register))
+  .post('/login', loginValidation, rescue(userController.login))
+  .get('/user', authMiddleware, rescue(userController.getAll))
+  .get('/user/:id', authMiddleware, rescue(userController.getById))
+  .delete('/user/me', authMiddleware, rescue(userController.deleteMe));
 
 module.exports = router;

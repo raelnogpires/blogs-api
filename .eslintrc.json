@@ -1,7 +1,4 @@
 {
   "root": true,
-  "extends": ["airbnb-base"],
-  "rules": {
-    "sonarjs/no-duplicate-string": ["error", 5]
-  }
+  "extends": ["airbnb-base"]
 }
