@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["trybe-backend"],
+  "extends": ["airbnb-base"],
   "rules": {
     "sonarjs/no-duplicate-string": ["error", 5]
   }
