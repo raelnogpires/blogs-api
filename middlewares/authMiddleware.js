@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/jwtConfig');
 const { UNAUTHORIZED } = require('./httpStatusCode');
-const { User } = require('../models'); 
+const { User } = require('../models');
 
 const authMiddleware = async (req, res, next) => {
   const { authorization: token } = req.headers;

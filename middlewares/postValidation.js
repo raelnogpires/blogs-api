@@ -16,7 +16,7 @@ const titleAndContentValidation = async (req, _res, next) => {
   return next();
 };
 
-const categoryIdValidation = async (req, res, next) => {
+const categoryIdValidation = async (req, _res, next) => {
   const { categoryIds } = req.body;
 
   if (!categoryIds) {
@@ -35,17 +35,17 @@ const categoryIdValidation = async (req, res, next) => {
   return next();
 };
 
-const categoriesValidation = async (req, res, next) => {
+const categoriesValidation = async (req, _res, next) => {
   const { categoryIds } = req.body;
 
   if (categoryIds) {
     return next({ code: BAD_REQUEST, message: 'Categories cannot be edited' });
   }
 
-  next();
+  return next();
 };
 
-const userValidation = async (req, res, next) => {
+const userValidation = async (req, _res, next) => {
   const { id } = req.params;
 
   const { result } = await getById(id);
@@ -61,7 +61,7 @@ const userValidation = async (req, res, next) => {
   return next();
 };
 
-const postExistValidation = async (req, res, next) => {
+const postExistValidation = async (req, _res, next) => {
   const { id } = req.params;
 
   const { result } = await getById(id);

@@ -1,7 +1,9 @@
 const express = require('express');
+
 const userRouter = require('./routers/user');
 const categoryRouter = require('./routers/category');
 const postRouter = require('./routers/post');
+
 const { errorMiddleware } = require('./middlewares/error');
 
 const app = express();
@@ -13,9 +15,5 @@ app.use(postRouter);
 
 app.use(errorMiddleware);
 
-app.listen(3000, () => console.log('ouvindo porta 3000!'));
-
-// não remova esse endpoint, e para o avaliador funcionar
-app.get('/', (request, response) => {
-  response.send();
-});
+// eslint-disable-next-line no-console
+app.listen(3000, () => console.log('Listening at port 3000'));
