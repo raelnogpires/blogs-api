@@ -11,6 +11,8 @@ const { User } = require('../models');
 
 const app = require('../index');
 
+const jwt = require('jsonwebtoken');
+
 describe('01 - register new user. POST /user', () => {
   describe('success case', () => {
     before(() => {
@@ -245,10 +247,45 @@ describe('02 - login. POST /login', () => {
       });
     });
   });
-
 });
 
-describe('03 - get all users registered. GET /user', () => {});
+describe('03 - get all users registered. GET /user', () => {
+  describe('success case', () => {
+    before(() => {
+      sinon.stub(User, 'findOne')
+        .resolves({ dataValues: { id: 1 } });
+
+      sinon.stub(User, 'findAll')
+        .resolves([
+          {
+            id: 1,
+            displayName: 'Brett Wiltshire',
+            email: 'brett@email.com',
+            image: '',
+          },
+        ]);
+
+      sinon.stub(jwt, 'verify')
+        .returns({ data: { email: 'brett@email.com' } });
+    });
+
+    after(() => sinon.stub());
+
+    it('returns status code 200 and array of users', async () => {
+      const res = await chai
+        .request(app)
+        .get('/user')
+        .set('authorization', 'validtoken');
+
+      expect(res.status).to.equal(200);
+      expect(res.body).to.be.an('array');
+      expect(res.body[0]).to.have.property('id');
+      expect(res.body[0]).to.have.property('displayName');
+      expect(res.body[0]).to.have.property('email');
+      expect(res.body[0]).to.have.property('image');
+    });
+  });
+});
 
 describe('04 - get registered user by id. GET /user/:id', () => {});
 
