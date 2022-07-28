@@ -13,6 +13,10 @@ const app = require('../index');
 
 const jwt = require('jsonwebtoken');
 
+const { secret, configs } = require('../config/jwtConfig');
+
+const token = jwt.sign({ data: { email: 'brett@email.com' } }, secret, configs);
+
 describe('01 - register new user. POST /user', () => {
   describe('success case', () => {
     before(() => {
@@ -269,7 +273,7 @@ describe('03 - get all users registered. GET /user', () => {
         .returns({ data: { email: 'brett@email.com' } });
     });
 
-    after(() => sinon.stub());
+    after(() => sinon.restore());
 
     it('returns status code 200 and array of users', async () => {
       const res = await chai
@@ -287,6 +291,37 @@ describe('03 - get all users registered. GET /user', () => {
   });
 });
 
-describe('04 - get registered user by id. GET /user/:id', () => {});
+describe('04 - get registered user by id. GET /user/:id', () => {
+  describe('success case', () => {
+    before(() => {
+      sinon.stub(User, 'findOne')
+        .resolves({
+          dataValues: {
+            id: 1,
+            displayName: 'Brett Wiltshire',
+            email: 'brett@email.com',
+            image: '',
+          },
+      });
+    });
+
+    after(() => sinon.restore());
+
+    it('returns status code 200 and especified user', async () => {
+      const res = await chai
+        .request(app)
+        .get('/user/1')
+        .set('authorization', token);
+
+      expect(res.status).to.equal(200);
+      expect(res.body.dataValues).to.have.property('id');
+      expect(res.body.dataValues).to.have.property('displayName');
+      expect(res.body.dataValues).to.have.property('email');
+      expect(res.body.dataValues).to.have.property('image');
+    });
+  });
+
+  describe('fail case', () => {});
+});
 
 describe('05 - delete own user. DELETE /user/me', () => {});
