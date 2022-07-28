@@ -81,6 +81,24 @@ describe('register new user. POST /user', () => {
         expect(res.body.message).to.equal('"email" is required');
       });
     });
+
+    describe(`if email isn't valid`, () => {
+      it('returns status code 400 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/user')
+          .send({
+            displayName: 'Brett Wiltshire',
+            email: 'brett@',
+            password: '123456',
+            image: '',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"email" must be a valid email');
+      });
+    });
   });
 });
 
