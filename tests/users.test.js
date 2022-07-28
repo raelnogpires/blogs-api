@@ -185,6 +185,37 @@ describe('02 - login. POST /login', () => {
       expect(res.body).to.have.property('token');
     });
   });
+
+  describe('fail case', () => {
+    describe(`if email isn't present in req.body in req.body`, () => {
+      it('no email field - returns status code 400 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/login')
+          .send({
+            password: '123456',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"email" is required');
+      });
+
+      it('email field empty - returns status code 400 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/login')
+          .send({
+            email: '',
+            password: '123456',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"email" is not allowed to be empty');
+      });
+    });
+  });
 });
 
 describe('03 - get all users registered. GET /user', () => {});
