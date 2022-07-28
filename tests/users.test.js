@@ -11,7 +11,7 @@ const { User } = require('../models');
 
 const app = require('../index');
 
-describe('register new user. POST /user', () => {
+describe('01 - register new user. POST /user', () => {
   describe('success case', () => {
     before(() => {
       sinon.stub(User, 'create')
@@ -163,10 +163,32 @@ describe('register new user. POST /user', () => {
   });
 });
 
-describe('login. POST /login', () => {});
+describe('02 - login. POST /login', () => {
+  describe('success case', () => {
+    before(() => {
+      sinon.stub(User, 'findOne')
+        .resolves(true);
+    });
 
-describe('get all users registered. GET /user', () => {});
+    after(() => sinon.restore());
 
-describe('get registered user by id. GET /user/:id', () => {});
+    it('returns status code 200 and token', async () => {
+      const res = await chai
+        .request(app)
+        .post('/login')
+        .send({
+          email: 'brett@email.com',
+          password: '123456',
+        });
 
-describe('delete own user. DELETE /user/me', () => {});
+      expect(res.status).to.equal(200);
+      expect(res.body).to.have.property('token');
+    });
+  });
+});
+
+describe('03 - get all users registered. GET /user', () => {});
+
+describe('04 - get registered user by id. GET /user/:id', () => {});
+
+describe('05 - delete own user. DELETE /user/me', () => {});
