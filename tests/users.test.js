@@ -24,7 +24,7 @@ describe('register new user. POST /user', () => {
         });
 
       sinon.stub(User, 'findOne')
-        .resolves(true);
+        .resolves(false);
     });
 
     after(() => sinon.restore());
@@ -133,6 +133,31 @@ describe('register new user. POST /user', () => {
         expect(res.status).to.equal(400);
         expect(res.body).to.have.property('message');
         expect(res.body.message).to.equal('"password" length must be 6 characters long');
+      });
+    });
+
+    describe('if email is already registered', () => {
+      before(() => {
+        sinon.stub(User, 'findOne')
+          .resolves(true);
+      });
+
+      after(() => sinon.restore());
+
+      it('returns status code 409 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/user')
+          .send({
+            displayName: 'Brett Wiltshire',
+            email: 'brett@email.com',
+            password: '123456',
+            image: '',
+          });
+
+        expect(res.status).to.equal(409);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('Email already exists');
       });
     });
   });
