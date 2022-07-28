@@ -1,4 +1,3 @@
-const { User } = require('../models');
 const statusCode = require('./httpStatusCode');
 
 const emailRegex = /\S+@\S+\.\S+/;
