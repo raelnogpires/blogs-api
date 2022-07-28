@@ -117,6 +117,24 @@ describe('register new user. POST /user', () => {
         expect(res.body.message).to.equal('"password" is required');
       });
     });
+
+    describe('if password is smaller or bigger than 6 characters', () => {
+      it('returns status code 400 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/user')
+          .send({
+            displayName: 'Brett Wiltshire',
+            email: 'brett@email.com',
+            password: '123',
+            image: '',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"password" length must be 6 characters long');
+      });
+    });
   });
 });
 
