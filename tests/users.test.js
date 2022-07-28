@@ -187,7 +187,7 @@ describe('02 - login. POST /login', () => {
   });
 
   describe('fail case', () => {
-    describe(`if email isn't present in req.body in req.body`, () => {
+    describe(`if email isn't present in req.body`, () => {
       it('no email field - returns status code 400 and error message', async () => {
         const res = await chai
           .request(app)
@@ -215,7 +215,37 @@ describe('02 - login. POST /login', () => {
         expect(res.body.message).to.equal('"email" is not allowed to be empty');
       });
     });
+
+    describe(`if password isn't present in req.body`, () => {
+      it('no password field - returns status code 400 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/login')
+          .send({
+            email: 'brett@email.com',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"password" is required');
+      });
+
+      it('password field empty - returns status code 400 and error message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/login')
+          .send({
+            email: 'brett@email.com',
+            password: '',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"password" is not allowed to be empty');
+      });
+    });
   });
+
 });
 
 describe('03 - get all users registered. GET /user', () => {});
