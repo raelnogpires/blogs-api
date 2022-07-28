@@ -18,7 +18,7 @@ describe('register new user. POST /user', () => {
         .resolves({
           id: 1,
           displayName: 'Brett Wiltshire',
-          email: 'brett@rmail.com',
+          email: 'brett@email.com',
           password: '123456',
           image: '',
         });
@@ -34,10 +34,10 @@ describe('register new user. POST /user', () => {
         .request(app)
         .post('/user')
         .send({
-          displayName: 'test user',
-          email: 'user-test@email.com',
-          password: 'test-password',
-          image: 'https://test.com/image.jpg',
+          displayName: 'Brett Wiltshire',
+          email: 'brett@email.com',
+          password: '123456',
+          image: '',
         });
 
       expect(res.status).to.equal(201);
