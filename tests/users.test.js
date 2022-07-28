@@ -63,6 +63,24 @@ describe('register new user. POST /user', () => {
         expect(res.body.message).to.equal('"displayName" length must be at least 8 characters long');
       });
     });
+
+    describe(`if email isn't present in req.body`, () => {
+      it('returns status code 400 and errror message', async () => {
+        const res = await chai
+          .request(app)
+          .post('/user')
+          .send({
+            displayName: 'Brett Wiltshire',
+            email: '',
+            password: '123456',
+            image: '',
+          });
+
+        expect(res.status).to.equal(400);
+        expect(res.body).to.have.property('message');
+        expect(res.body.message).to.equal('"email" is required');
+      });
+    });
   });
 });
 
