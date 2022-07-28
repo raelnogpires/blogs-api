@@ -16,7 +16,7 @@
     "start": "node index.js",
     "drop": "npx sequelize-cli db:drop $",
     "seed": "npx sequelize-cli db:seed:all $",
-    "test": "mocha ./tests/*.test.js",
+    "test": "mocha tests/*.test.js --exit",
     "test-coverage": "jest --runInBand --coverage",
     "debug": "nodemon index.js",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
@@ -28,7 +28,7 @@
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.22.1",
     "jest": "26.0.1",
-    "mocha": "^10.0.0",
+    "mocha": "9.2.2",
     "nodemon": "^2.0.15",
     "sequelize-cli": "6.2.0",
     "sinon": "^14.0.0",

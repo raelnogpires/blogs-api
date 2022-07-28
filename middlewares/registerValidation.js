@@ -65,12 +65,6 @@ const registerValidation = async (req, _res, next) => {
     return next(emailV.error);
   }
 
-  const exists = await User.findOne({ where: { email: req.body.email } });
-
-  if (exists) {
-    return next({ code: statusCode.CONFLICT, message: 'User already registered' });
-  }
-
   if (passwordV.error) {
     return next(passwordV.error);
   }
